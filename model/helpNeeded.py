@@ -12,11 +12,12 @@ class HelpNeeds:
         self.danger_rate = danger_rate
 
     def calculate_danger_rate(self, current_event):
-        """根据事件类型和严重性调整危险率"""
+        """
+        identify the event type and severity and calculate the danger rate
+        """
         base_danger_rate = self.danger_rate
         event_description = self.weather_event
 
-        # 判断事件类型和严重性
         if current_event.event_type == "Flood Warning" and current_event.severity == "High":
             base_danger_rate += 20.0
             event_description = "Flood warning, Level High, Danger Rate + 20%"
@@ -27,7 +28,6 @@ class HelpNeeds:
             base_danger_rate += 5.0
             event_description = "Fire warning, Level Low, Danger Rate + 5%"
 
-        # 更新危险率和事件描述
         self.danger_rate = base_danger_rate
         self.weather_event = event_description
 

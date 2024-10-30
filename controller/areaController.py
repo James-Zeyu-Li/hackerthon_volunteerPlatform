@@ -10,7 +10,7 @@ class AreaController:
         areas = self.area_service.get_all_areas()
         return sorted(
             areas,
-            key=lambda area: (-area.current_event.affection_rate, -
+            key=lambda area: (-area.help_needs.danger_rate, -
                               area.population.homeless)
         )
 
@@ -19,8 +19,10 @@ class AreaController:
 
     def display_area_details(self, area):
         if not area:
+            print("Area not found.")
             return None
 
+        #   Get area details
         population = area.get_population_details()
         infrastructure = area.get_infrastructure_needs()
         weather_impact = area.get_weather_impact()
@@ -39,5 +41,22 @@ class AreaController:
             "help_needs": help_needs
         }
 
-        # show area details by calling the view
         self.view.display_area_information(area_details)
+
+        while True:
+            print("\nOptions:")
+            print("1: Become a Volunteer")
+            print("2: Go back to the area list")
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                self.become_volunteer(area)  # become a volunteer
+                break  # return to the area list
+            elif choice == "2":
+                break  # return to the area list
+            else:
+                print("Invalid choice. Please try again.")
+
+    def become_volunteer(self, area):
+        print(
+            f"You have chosen to become a volunteer for the area: {area.name}")
